@@ -44,11 +44,13 @@ public final class Panel extends JPanel {
 	public String S_stroka;
 	public String P_stroka;
 	public String M_stroka;
+	public String FirstDonate;
 	private double S;
 	private double P;
 	private double P_m;
 	private double M;
 	private double H;
+	private double FD;
 	
 	public Integer flag = 0;
 	
@@ -78,7 +80,7 @@ public final class Panel extends JPanel {
 	JTextField PersentField = new JTextField("");
 	JTextField SumField = new JTextField("");
 	JTextField TimeField = new JTextField("");
-	JTextField FirstDonateField = new JTextField("Первый взнос");
+	JTextField FirstDonateField = new JTextField("");
 	
 	JButton Exit = new JButton("Выход");
 	JButton Calculated = new JButton("Расчитать");
@@ -402,7 +404,10 @@ public final class Panel extends JPanel {
 						PersentField.setVisible(true);
 						Calculated.setVisible(true);
 						Hello.setVisible(true);
-						FirstPayButton.setVisible(true);
+						DonateLabel.setVisible(true);
+						FirstDonateField.setVisible(true);
+						
+						flag = 1;
 						
 					} else {
 						JOptionPane.showMessageDialog(null, "Неверный пароль" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
@@ -470,6 +475,7 @@ public final class Panel extends JPanel {
 				M_stroka = TimeField.getText();
 				P_stroka = PersentField.getText();
 				
+				
 				if (Login.equals(AdminLog) == true) {
 					//
 					try {
@@ -477,6 +483,12 @@ public final class Panel extends JPanel {
 						M = Integer.parseInt(M_stroka);
 						P = Integer.parseInt(P_stroka);
 						P_m = (double) P / 1200;
+						
+						if (flag == 1) { 
+							FirstDonate = FirstDonateField.getText();
+							FD = Integer.parseInt(FirstDonate);
+							S = S - FD;
+							}
 						
 						Double step = Math.pow(1 + P_m, M);
 						Double verx = P_m * step;
@@ -505,6 +517,12 @@ public final class Panel extends JPanel {
 						P = Integer.parseInt(P_stroka);
 						P_m = (double) P / 1200;
 						
+						if (flag == 1) { 
+							FirstDonate = FirstDonateField.getText();
+							FD = Integer.parseInt(FirstDonate);
+							S = S - FD;
+							}
+						
 						Double step = Math.pow(1 + P_m, M);
 						Double verx = P_m * step;
 						Double niz = step - 1;
@@ -531,6 +549,12 @@ public final class Panel extends JPanel {
 						M = Integer.parseInt(M_stroka);
 						P = Integer.parseInt(P_stroka);
 						P_m = (double) P / 1200;
+						
+						if (flag == 1) { 
+							FirstDonate = FirstDonateField.getText();
+							FD = Integer.parseInt(FirstDonate);
+							S = S - FD;
+							}
 						
 						Double step = Math.pow(1 + P_m, M);
 						Double verx = P_m * step;
