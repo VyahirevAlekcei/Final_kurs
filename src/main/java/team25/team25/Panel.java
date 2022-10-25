@@ -33,20 +33,36 @@ public final class Panel extends JPanel {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+	// Создание документа
 	static int FONT_SIZE_SMALL = 16;
 	 static int FONT_SIZE_BIG = 32;
 	 static int OFFSET = 40;
+	
+	
+	// Расчёт
 	public String S_stroka;
 	public String P_stroka;
 	public String M_stroka;
-	private static final long serialVersionUID = 1L;
 	private double S;
 	private double P;
 	private double P_m;
 	private double M;
 	private double H;
 	
-	//������
+	public Integer flag = 0;
+	
+	// Авторизация
+	public String Login;
+	public String AdminLog = "Admin";
+	public String AdminPas = "Admin";
+	public String PremiumLog = "PremiumUser";
+	public String PremiumPas = "Premium";
+	public String UserLog = "User";
+	public String UserPas = "123";
+	
+	
+	//Поля
 	JLabel Hello = new JLabel("Добро пожаловать в ипотечный калькулятор для юридических лиц!");
 	JLabel FirstLabel = new JLabel("Общая сумма кредита");
 	JLabel SecondLabel = new JLabel("Срок кредитования в месяцах");
@@ -55,13 +71,20 @@ public final class Panel extends JPanel {
 	JLabel FifthLabel = new JLabel("");
 	JLabel SeventhLabel = new JLabel("");
 	JLabel SixthLabel = new JLabel("Общая сумма кредита с процентами:");
+	JLabel DonateLabel = new JLabel("Первый взнос");
+	
 	JButton Information = new JButton("Информация");
-	JTextField ThirdField = new JTextField("");
-	JTextField FirstField = new JTextField("");
-	JTextField SecondField = new JTextField("");
+	
+	JTextField PersentField = new JTextField("");
+	JTextField SumField = new JTextField("");
+	JTextField TimeField = new JTextField("");
+	JTextField FirstDonateField = new JTextField("Первый взнос");
+	
 	JButton Exit = new JButton("Выход");
 	JButton Calculated = new JButton("Расчитать");
 	JButton PDF = new JButton("Сгенерировать PDF");
+	JButton FirstPayButton = new JButton("Добавить первый взнос");
+	JButton DontPayButton = new JButton("Убрать первый взнос");
 	
 	JLabel AuthorLabel = new JLabel("Авторизация");
 	JLabel LoginLabel = new JLabel("Логин");
@@ -167,8 +190,8 @@ public final class Panel extends JPanel {
 		FirstLabel.setBounds(20, 80, 260, 20);
 		FirstLabel.setVisible(false);
 		FirstLabel.setFont(shrift);
-		add(FirstField);
-		FirstField.addKeyListener(new KeyListener() {
+		add(SumField);
+		SumField.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
                 char caracter = e.getKeyChar();
                 if (((caracter < '0') || (caracter > '9'))
@@ -181,8 +204,28 @@ public final class Panel extends JPanel {
 			public void keyReleased(KeyEvent e) {	
 			}
         });
-		FirstField.setBounds(20, 100, 260, 20);
-		FirstField.setVisible(false);
+		SumField.setBounds(20, 100, 260, 20);
+		SumField.setVisible(false);
+		
+		add(FirstDonateField);
+		FirstDonateField.setBounds(20, 220, 260, 20);
+		FirstDonateField.setVisible(false);
+		FirstDonateField.setFont(shrift);
+		FirstDonateField.addKeyListener(new KeyListener() {
+        	
+            public void keyTyped(KeyEvent e) {
+                char caracter = e.getKeyChar();
+                if (((caracter < '0') || (caracter > '9'))
+                        && (caracter != '\b')) {
+                    e.consume();
+                }
+            }
+			public void keyPressed(KeyEvent e) {	
+			}
+			public void keyReleased(KeyEvent e) {	
+			}
+        });
+	
 		
 	    //���� ������������
 		add(SecondLabel);
@@ -190,10 +233,10 @@ public final class Panel extends JPanel {
 		SecondLabel.setVisible(false);
 		SecondLabel.setFont(shrift);
 		
-		add(SecondField);
-		SecondField.setBounds(20, 140, 260, 20);
-		SecondField.setVisible(false);
-		SecondField.addKeyListener(new KeyListener() {
+		add(TimeField);
+		TimeField.setBounds(20, 140, 260, 20);
+		TimeField.setVisible(false);
+		TimeField.addKeyListener(new KeyListener() {
         	
             public void keyTyped(KeyEvent e) {
                 char caracter = e.getKeyChar();
@@ -214,10 +257,10 @@ public final class Panel extends JPanel {
 		ThirdLabel.setVisible(false);
 		ThirdLabel.setFont(shrift);
 
-		add(ThirdField);
-		ThirdField.setBounds(20, 180, 260, 20);
-		ThirdField.setVisible(false);
-		ThirdField.addKeyListener(new KeyListener() {
+		add(PersentField);
+		PersentField.setBounds(20, 180, 260, 20);
+		PersentField.setVisible(false);
+		PersentField.addKeyListener(new KeyListener() {
         	
             public void keyTyped(KeyEvent e) {
                 char caracter = e.getKeyChar();
@@ -232,31 +275,36 @@ public final class Panel extends JPanel {
 			}
         });
 		
-	    //����������� �����
+		add(DonateLabel);
+		DonateLabel.setBounds(20, 200, 260, 20);
+		DonateLabel.setVisible(false);
+		DonateLabel.setForeground(Color.BLACK);
+		
+	    //
 		add(FourthLabel);
 		FourthLabel.setBounds(320, 100, 260, 20);
 		FourthLabel.setVisible(false);
 		FourthLabel.setFont(shrift);
 		FourthLabel.setForeground(Color.BLACK);
-		//����� ������������ ������
+		//
 		add(FifthLabel);
 		FifthLabel.setBounds(320, 120, 260, 20);
 		FifthLabel.setVisible(false);
 		FifthLabel.setFont(shrift1);
 		FifthLabel.setForeground(Color.BLACK);
-		//����� �����
+		//
 		add(SixthLabel);
 		SixthLabel.setBounds(320, 150, 300, 20);
-		SixthLabel.setVisible(false); // ������ ���� false
+		SixthLabel.setVisible(false); // false
 		SixthLabel.setFont(shrift);
 		SixthLabel.setForeground(Color.BLACK);
-		// ����� ����� �����
+		//
 		add(SeventhLabel);
 		SeventhLabel.setBounds(320, 170, 260, 20);
 		SeventhLabel.setVisible(false);
 		SeventhLabel.setFont(shrift1);
 		SeventhLabel.setForeground(Color.BLACK);
-		//����������
+		//
 		add(Information);
 		Information.setBounds(20, 300, 120, 30);
 		add(Information);
@@ -265,7 +313,151 @@ public final class Panel extends JPanel {
 		ActionListener InforListener = new Information();
 		Information.addActionListener(InforListener);
 		
+		class Authorization extends Main implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String Password;
+				
+			
+				Login = LoginTest.getText();
+				Password = PasswordTest.getText();
+				
+				if (Login.equals(AdminLog) == true) {
+					if (Password.equals(AdminPas) == true) {
+						
+						AuthorLabel.setVisible(false);
+						LoginLabel.setVisible(false);
+						PasswordLabel.setVisible(false);
+						LoginTest.setVisible(false);
+						PasswordTest.setVisible(false);
+						Enter.setVisible(false);
+						
+						
+						
+						FirstLabel.setVisible(true);
+						SecondLabel.setVisible(true);
+						ThirdLabel.setVisible(true);
+						FourthLabel.setVisible(true);
+						SixthLabel.setVisible(true);
+						Information.setVisible(true);
+						SumField.setVisible(true);
+						TimeField.setVisible(true);
+						PersentField.setVisible(true);
+						Calculated.setVisible(true);
+						PDF.setVisible(true);
+						Hello.setVisible(true);
+						FirstPayButton.setVisible(true);
+						
+					} else {
+						JOptionPane.showMessageDialog(null, "Неверный пароль" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+					}
+					
+				} else if (Login.equals(PremiumLog) == true) {
+					if (Password.equals(PremiumPas) == true) {
+						JOptionPane.showMessageDialog(null, "Для правильного создания PDF файла, сначала нажмите на кнопку Сгенерировать,\\n а затем проведите вычисления кнопкой Расчитать" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+						AuthorLabel.setVisible(false);
+						LoginLabel.setVisible(false);
+						PasswordLabel.setVisible(false);
+						LoginTest.setVisible(false);
+						PasswordTest.setVisible(false);
+						Enter.setVisible(false);
+						
+						FirstLabel.setVisible(true);
+						SecondLabel.setVisible(true);
+						ThirdLabel.setVisible(true);
+						FourthLabel.setVisible(true);
+						SixthLabel.setVisible(true);
+						SumField.setVisible(true);
+						TimeField.setVisible(true);
+						PersentField.setVisible(true);
+						Calculated.setVisible(true);
+						PDF.setVisible(true);
+						Hello.setVisible(true);
+						FirstPayButton.setVisible(true);
+						
+					} else {
+						JOptionPane.showMessageDialog(null, "Неверный пароль" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+					}
+					
+					
+				} else if (Login.equals(UserLog) == true) {
+					if (Password.equals(UserPas) == true) {
+						JOptionPane.showMessageDialog(null, "Выгодное предложение оформить премиум доступ всего за 4.99$\\n и получить доступ к возможности распечатки своих вычислений" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+						AuthorLabel.setVisible(false);
+						LoginLabel.setVisible(false);
+						PasswordLabel.setVisible(false);
+						LoginTest.setVisible(false);
+						PasswordTest.setVisible(false);
+						Enter.setVisible(false);
+						
+						FirstLabel.setVisible(true);
+						SecondLabel.setVisible(true);
+						ThirdLabel.setVisible(true);
+						FourthLabel.setVisible(true);
+						SixthLabel.setVisible(true);
+						SumField.setVisible(true);
+						TimeField.setVisible(true);
+						PersentField.setVisible(true);
+						Calculated.setVisible(true);
+						Hello.setVisible(true);
+						FirstPayButton.setVisible(true);
+						
+					} else {
+						JOptionPane.showMessageDialog(null, "Неверный пароль" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+					}
+					
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Неверный логин" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);	
+				}
+				
+				
+			}
+	    	
+	    }
 		
+		add(FirstPayButton);
+		FirstPayButton.setBounds(130, 260, 180, 30);
+		FirstPayButton.setVisible(false);
+		
+		add(DontPayButton);
+		DontPayButton.setBounds(360, 260, 180, 30);
+		DontPayButton.setVisible(false);
+		
+		class FirstPayListener extends Main implements ActionListener {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				flag = 1;
+				
+				DonateLabel.setVisible(true);
+				FirstDonateField.setVisible(true);
+				DontPayButton.setVisible(true);
+				FirstPayButton.setVisible(false);
+				
+			}
+		}
+		
+		ActionListener FirstPay = new FirstPayListener();
+		FirstPayButton.addActionListener(FirstPay);
+
+		class DontPayListener extends Main implements ActionListener {	
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				flag = 0;
+				
+				DonateLabel.setVisible(false);
+				FirstDonateField.setVisible(false);
+				DontPayButton.setVisible(false);
+				FirstPayButton.setVisible(true);
+			}	
+		}
+		
+		ActionListener DontPay = new DontPayListener();
+		DontPayButton.addActionListener(DontPay);
 		
 		class Raschet extends Main implements ActionListener {
 
@@ -274,37 +466,96 @@ public final class Panel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				S_stroka = FirstField.getText();
-				//Integer S = Integer.parseInt(S_stroka);
-				M_stroka = SecondField.getText();
-				//Integer M = Integer.parseInt(M_stroka);
-				P_stroka = ThirdField.getText();
-				//float P = Integer.parseInt(P_stroka);
-				try {
-					S = Integer.parseInt(S_stroka);
-					M = Integer.parseInt(M_stroka);
-					P = Integer.parseInt(P_stroka);
-					P_m = (double) P / 1200;
+				S_stroka = SumField.getText();
+				M_stroka = TimeField.getText();
+				P_stroka = PersentField.getText();
+				
+				if (Login.equals(AdminLog) == true) {
+					//
+					try {
+						S = Integer.parseInt(S_stroka);
+						M = Integer.parseInt(M_stroka);
+						P = Integer.parseInt(P_stroka);
+						P_m = (double) P / 1200;
+						
+						Double step = Math.pow(1 + P_m, M);
+						Double verx = P_m * step;
+						Double niz = step - 1;
+						Double annut = verx / niz;
+						A = S * annut;
+						//A = S * P_m / ( 1 + Math.pow(1 + P_m, -M) - 1);
+						// A = (S * P_m) / (1 - (1 + P_m) * (1 - M));
+						 A = Math.ceil(A);
+						 H = A * M;
+						 
+						SeventhLabel.setText("" + H +"   руб.");
+						//FifthLabel.setText("" + A);
+						FifthLabel.setVisible(true);
+						SeventhLabel.setVisible(true);
+						FifthLabel.setText("" + A +"   руб.");
+					} catch(NumberFormatException b) {
+						JOptionPane.showMessageDialog(null, "Ошибка при обработке вводных данных.\n Скорректируйте данные." , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+					}
 					
-					Double step = Math.pow(1 + P_m, M);
-					Double verx = P_m * step;
-					Double niz = step - 1;
-					Double annut = verx / niz;
-					A = S * annut;
-					//A = S * P_m / ( 1 + Math.pow(1 + P_m, -M) - 1);
-					// A = (S * P_m) / (1 - (1 + P_m) * (1 - M));
-					 A = Math.ceil(A);
-					 H = A * M;
-					 
-					SeventhLabel.setText("" + H +"   руб.");
-					//FifthLabel.setText("" + A);
-					FifthLabel.setVisible(true);
-					SeventhLabel.setVisible(true);
-				} catch(NumberFormatException b) {
-					JOptionPane.showMessageDialog(null, "Ошибка при обработке вводных данных.\n Скорректируйте данные." , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+				} else if (Login.equals(PremiumLog) == true) {
+					//
+					try {
+						S = Integer.parseInt(S_stroka);
+						M = Integer.parseInt(M_stroka);
+						P = Integer.parseInt(P_stroka);
+						P_m = (double) P / 1200;
+						
+						Double step = Math.pow(1 + P_m, M);
+						Double verx = P_m * step;
+						Double niz = step - 1;
+						Double annut = verx / niz;
+						A = S * annut;
+						//A = S * P_m / ( 1 + Math.pow(1 + P_m, -M) - 1);
+						// A = (S * P_m) / (1 - (1 + P_m) * (1 - M));
+						 A = Math.ceil(A);
+						 H = A * M;
+						 
+						SeventhLabel.setText("" + H +"   руб.");
+						//FifthLabel.setText("" + A);
+						FifthLabel.setVisible(true);
+						SeventhLabel.setVisible(true);
+						FifthLabel.setText("" + A +"   руб.");
+					} catch(NumberFormatException b) {
+						JOptionPane.showMessageDialog(null, "Ошибка при обработке вводных данных.\n Скорректируйте данные." , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+					}
+					
+				} else if (Login.equals(UserLog) == true) {
+					//
+					try {
+						S = Integer.parseInt(S_stroka);
+						M = Integer.parseInt(M_stroka);
+						P = Integer.parseInt(P_stroka);
+						P_m = (double) P / 1200;
+						
+						Double step = Math.pow(1 + P_m, M);
+						Double verx = P_m * step;
+						Double niz = step - 1;
+						Double annut = verx / niz;
+						A = S * annut;
+						//A = S * P_m / ( 1 + Math.pow(1 + P_m, -M) - 1);
+						// A = (S * P_m) / (1 - (1 + P_m) * (1 - M));
+						 A = Math.ceil(A);
+						 H = A * M;
+						 
+						SeventhLabel.setText("" + H +"   руб.");
+						//FifthLabel.setText("" + A);
+						FifthLabel.setVisible(true);
+						SeventhLabel.setVisible(true);
+						FifthLabel.setText("" + A +"   руб.");
+					} catch(NumberFormatException b) {
+						JOptionPane.showMessageDialog(null, "Ошибка при обработке вводных данных.\n Скорректируйте данные." , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
+					}
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Ой! Что-то пошло не так./n Перезагрузите приложение или обратитесь в тех. поддержку" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
 				}
+				
 				//DecimalFormat df = new DecimalFormat("###.##");
-				FifthLabel.setText("" + A +"   руб.");
 				
 				}
 			
@@ -351,116 +602,9 @@ public final class Panel extends JPanel {
 		ActionListener PDF_text = new PDF_on();
 		PDF.addActionListener(PDF_text);
 		
-		class Authorization extends Main implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				String Login;
-				String Password;
-				
-				String AdminLog = "Admin";
-				String AdminPas = "Admin";
-				
-				String PremiumLog = "PremiumUser";
-				String PremiumPas = "Premium";
-				
-				String UserLog = "User";
-				String UserPas = "123";
-			
-				Login = LoginTest.getText();
-				Password = PasswordTest.getText();
-				
-				if (Login.equals(AdminLog) == true) {
-					if (Password.equals(AdminPas) == true) {
-						
-						AuthorLabel.setVisible(false);
-						LoginLabel.setVisible(false);
-						PasswordLabel.setVisible(false);
-						LoginTest.setVisible(false);
-						PasswordTest.setVisible(false);
-						Enter.setVisible(false);
-						
-						
-						
-						FirstLabel.setVisible(true);
-						SecondLabel.setVisible(true);
-						ThirdLabel.setVisible(true);
-						FourthLabel.setVisible(true);
-						SixthLabel.setVisible(true);
-						Information.setVisible(true);
-						FirstField.setVisible(true);
-						SecondField.setVisible(true);
-						ThirdField.setVisible(true);
-						Calculated.setVisible(true);
-						PDF.setVisible(true);
-						Hello.setVisible(true);
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "Неверный пароль" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
-					}
-					
-				} else if (Login.equals(PremiumLog) == true) {
-					if (Password.equals(PremiumPas) == true) {
-						JOptionPane.showMessageDialog(null, "Для правильного создания PDF файла, сначала нажмите на кнопку Сгенерировать,\\n а затем проведите вычисления кнопкой Расчитать" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
-						AuthorLabel.setVisible(false);
-						LoginLabel.setVisible(false);
-						PasswordLabel.setVisible(false);
-						LoginTest.setVisible(false);
-						PasswordTest.setVisible(false);
-						Enter.setVisible(false);
-						
-						FirstLabel.setVisible(true);
-						SecondLabel.setVisible(true);
-						ThirdLabel.setVisible(true);
-						FourthLabel.setVisible(true);
-						SixthLabel.setVisible(true);
-						FirstField.setVisible(true);
-						SecondField.setVisible(true);
-						ThirdField.setVisible(true);
-						Calculated.setVisible(true);
-						PDF.setVisible(true);
-						Hello.setVisible(true);
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "Неверный пароль" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
-					}
-					
-					
-				} else if (Login.equals(UserLog) == true) {
-					if (Password.equals(UserPas) == true) {
-						JOptionPane.showMessageDialog(null, "Выгодное предложение оформить премиум доступ всего за 4.99$\\n и получить доступ к возможности распечатки своих вычислений" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
-						AuthorLabel.setVisible(false);
-						LoginLabel.setVisible(false);
-						PasswordLabel.setVisible(false);
-						LoginTest.setVisible(false);
-						PasswordTest.setVisible(false);
-						Enter.setVisible(false);
-						
-						FirstLabel.setVisible(true);
-						SecondLabel.setVisible(true);
-						ThirdLabel.setVisible(true);
-						FourthLabel.setVisible(true);
-						SixthLabel.setVisible(true);
-						FirstField.setVisible(true);
-						SecondField.setVisible(true);
-						ThirdField.setVisible(true);
-						Calculated.setVisible(true);
-						Hello.setVisible(true);
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "Неверный пароль" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
-					}
-					
-					
-				} else {
-					JOptionPane.showMessageDialog(null, "Неверный логин" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);	
-				}
-				
-				
-			}
-	    	
-	    }
+		
+		
+		
 	    
 	    ActionListener authorization = new Authorization();
 	    Enter.addActionListener(authorization);
