@@ -296,13 +296,25 @@ public final class Panel extends JPanel {
 					 A = Math.ceil(A);
 					 H = A * M;
 					 
-					SeventhLabel.setText("" + H +"   ���.");
+					SeventhLabel.setText("" + H +"   руб.");
 					//FifthLabel.setText("" + A);
 					FifthLabel.setVisible(true);
 					SeventhLabel.setVisible(true);
 				} catch(NumberFormatException b) {
 					JOptionPane.showMessageDialog(null, "Ошибка при обработке вводных данных.\n Скорректируйте данные." , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
 				}
+				//DecimalFormat df = new DecimalFormat("###.##");
+				FifthLabel.setText("" + A +"   руб.");
+				
+				}
+			
+		
+		}
+		
+		class PDF_on extends Main implements ActionListener {
+			
+			public void actionPerformed(ActionEvent e) {
+				
 				Receipt receipt = new Receipt(
 		                "Total mortgage amount = " + S + 
 		                "  Repayment time in months  =" + M +
@@ -316,10 +328,8 @@ public final class Panel extends JPanel {
 					JOptionPane.showMessageDialog(null, "" , "Сообщение" , JOptionPane.PLAIN_MESSAGE);
 					e1.printStackTrace();
 				}
-				DecimalFormat df = new DecimalFormat("###.##");
-				FifthLabel.setText(df.format(getResult())+"   ���.");}
-			
-		
+				
+			}
 		}
 		
 		Calculated.setBounds(160, 300, 120, 30);
@@ -338,7 +348,8 @@ public final class Panel extends JPanel {
 		add(PDF);
 		PDF.setVisible(false);
 		ActionListener PDFListener = new PDFButton();
-		PDF.addActionListener(PDFListener);
+		ActionListener PDF_text = new PDF_on();
+		PDF.addActionListener(PDF_text);
 		
 		class Authorization extends Main implements ActionListener {
 
@@ -453,6 +464,7 @@ public final class Panel extends JPanel {
 	    
 	    ActionListener authorization = new Authorization();
 	    Enter.addActionListener(authorization);
+	    Enter.addActionListener(PDFListener);
 		
 		
 	}
